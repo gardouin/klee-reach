@@ -1,27 +1,33 @@
-KLEE Symbolic Virtual Machine
-=============================
+KLEE-Reach
+==========
 
-[![Build Status](https://github.com/klee/klee/workflows/CI/badge.svg)](https://github.com/klee/klee/actions?query=workflow%3ACI)
-[![Build Status](https://api.cirrus-ci.com/github/klee/klee.svg)](https://cirrus-ci.com/github/klee/klee)
-[![Coverage](https://codecov.io/gh/klee/klee/branch/master/graph/badge.svg)](https://codecov.io/gh/klee/klee)
+`KLEE-Reach` is an extension to KLEE that allows you to perform
+reachability analysis with KLEE. In particular, this new version offers
+two new heuristics inspired by A* and developed to improve the 
+efficiency of symbolic execution in target search.
 
-`KLEE` is a symbolic virtual machine built on top of the LLVM compiler
-infrastructure. Currently, there are two primary components:
+## Requirements
 
-  1. The core symbolic virtual machine engine; this is responsible for
-     executing LLVM bitcode modules with support for symbolic
-     values. This is comprised of the code in lib/.
+In addition to the KLEE requirements, installation of this extension 
+requires the following:
+- Boost C++ library
+- Python 3.8 and pip
 
-  2. A POSIX/Linux emulation layer oriented towards supporting uClibc,
-     with additional support for making parts of the operating system
-     environment symbolic.
+## Installation
 
-Additionally, there is a simple library for replaying computed inputs
-on native code (for closed programs). There is also a more complicated
-infrastructure for replaying the inputs generated for the POSIX/Linux
-emulation layer, which handles running native programs in an
-environment that matches a computed test input, including setting up
-files, pipes, environment variables, and passing command line
-arguments.
+To install KLEE-Reach, simply follow the usual instructions for building
+KLEE. Instead of following these steps on the official KLEE repository, 
+use our repository.
 
-For further information, see the [webpage](https://klee-se.org/).
+In addition to that, execute `make` in klee-reach-utils. This will 
+install the Python module for calculating distances.
+
+## How to use
+
+Please refer to `user_manual.pdf`.
+
+## References
+
+The original project: http://klee-se.org/
+The paper that developed the new heuristics: 
+https://doi.org/10.1007/978-3-031-47115-5_4

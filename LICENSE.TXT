@@ -1,4 +1,17 @@
 ==============================================================================
+KLEE-Reach License
+==============================================================================
+Université de Bordeaux, Bordeaux INP, CNRS
+Open Source License
+
+This project is being developed as an extension to KLEE.
+This licence applies to all additions to this extension, but does not override
+the original licence (see below).
+
+Copyright (c) 2024 Université de Bordeaux, Bordeaux INP, CNRS.
+All rights reserved.
+
+==============================================================================
 KLEE Release License
 ==============================================================================
 University of Illinois/NCSA
