@@ -5,6 +5,9 @@
 // This file is distributed under the University of Illinois Open Source
 // License. See LICENSE.TXT for details.
 //
+// This file has been edited for KLEE-Reach
+// Copyright (C) 2024 Université de Bordeaux, Bordeaux INP, CNRS
+//
 //===----------------------------------------------------------------------===*/
 
 #ifndef KLEE_H
@@ -60,6 +63,10 @@ extern "C" {
   /* klee_abort - Abort the current KLEE process. */
   __attribute__((noreturn))
   void klee_abort(void);  
+
+  /* klee_reach - Set a target to reach in the program */
+  __attribute__((noreturn))
+  void klee_reach(void);  
 
   /* klee_report_error - Report a user defined error and terminate the current
    * KLEE process.

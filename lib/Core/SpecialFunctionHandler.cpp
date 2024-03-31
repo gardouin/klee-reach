@@ -5,6 +5,9 @@
 // This file is distributed under the University of Illinois Open Source
 // License. See LICENSE.TXT for details.
 //
+// This file has been edited for KLEE-Reach
+// Copyright (C) 2024 Université de Bordeaux, Bordeaux INP, CNRS
+//
 //===----------------------------------------------------------------------===//
 
 #include "SpecialFunctionHandler.h"
@@ -87,6 +90,7 @@ static constexpr std::array handlerInfo = {
   addDNR("klee_abort", handleAbort),
   addDNR("klee_silent_exit", handleSilentExit),
   addDNR("klee_report_error", handleReportError),
+  addDNR("klee_reach", handleReach),
   add("aligned_alloc", handleMemalign, true),
   add("calloc", handleCalloc, true),
   add("free", handleFree, false),
@@ -839,4 +843,12 @@ void SpecialFunctionHandler::handleMarkGlobal(ExecutionState &state,
     assert(!mo->isLocal);
     mo->isGlobal = true;
   }
+}
+
+void SpecialFunctionHandler::handleReach(ExecutionState &state,
+                                         KInstruction *target,
+                                         std::vector<ref<Expr>> &arguments) {
+  assert(arguments.size() == 0 && "invalid number of arguments to reach");
+  executor.terminateStateOnReach(state, "target reached",
+                                        StateTerminationType::Reach);
 }

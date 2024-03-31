@@ -5,6 +5,9 @@
 // This file is distributed under the University of Illinois Open Source
 // License. See LICENSE.TXT for details.
 //
+// This file has been edited for KLEE-Reach
+// Copyright (C) 2024 Université de Bordeaux, Bordeaux INP, CNRS
+//
 //===----------------------------------------------------------------------===//
 
 #ifndef KLEE_SPECIALFUNCTIONHANDLER_H
@@ -110,6 +113,7 @@ namespace klee {
     HANDLER(handlePrintExpr);
     HANDLER(handlePrintRange);
     HANDLER(handleRange);
+    HANDLER(handleReach); // GA: adding handler for klee_reach
     HANDLER(handleRealloc);
     HANDLER(handleReportError);
     HANDLER(handleRevirtObjects);

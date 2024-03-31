@@ -171,6 +171,8 @@ void klee_prefer_cex(void *object, uintptr_t condition) {}
 
 void klee_abort() { abort(); }
 
+void klee_reach() { abort(); } // for now, we abort the program
+
 void klee_print_expr(const char *msg, ...) {}
 
 void klee_set_forking(unsigned enable) {}

@@ -7,6 +7,9 @@
 // This file is distributed under the University of Illinois Open Source
 // License. See LICENSE.TXT for details.
 //
+// This file has been edited for KLEE-Reach
+// Copyright (C) 2024 Université de Bordeaux, Bordeaux INP, CNRS
+//
 //===----------------------------------------------------------------------===//
 
 #include "klee/ADT/KTest.h"
@@ -757,6 +760,7 @@ static const char *modelledExternals[] = {
   "free",
   "abort",
   "klee_abort",
+  "klee_reach",
   "klee_assume",
   "klee_check_memory_access",
   "klee_define_fixed_object",
@@ -1123,7 +1127,7 @@ int main(int argc, char **argv, char **envp) {
      {&ChecksCat,      &DebugCat,    &ExtCallsCat, &ExprCat,     &LinkCat,
       &MemoryCat,      &MergeCat,    &MiscCat,     &ModuleCat,   &ReplayCat,
       &SearchCat,      &SeedingCat,  &SolvingCat,  &StartCat,    &StatsCat,
-      &TerminationCat, &TestCaseCat, &TestGenCat,  &ExecTreeCat, &ExecTreeCat});
+      &TerminationCat, &TestCaseCat, &TestGenCat,  &ExecTreeCat, &ExecTreeCat,     &AStarCat});
   llvm::InitializeNativeTarget();
 
   parseArguments(argc, argv);

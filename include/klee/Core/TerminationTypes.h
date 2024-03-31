@@ -5,6 +5,9 @@
 // This file is distributed under the University of Illinois Open Source
 // License. See LICENSE.TXT for details.
 //
+// This file has been edited for KLEE-Reach
+// Copyright (C) 2024 Université de Bordeaux, Bordeaux INP, CNRS
+//
 //===----------------------------------------------------------------------===//
 
 #ifndef KLEE_TERMINATIONTYPES_H
@@ -21,7 +24,8 @@
   TCLASS(UserError, 5U)                                                        \
   TCLASS(ExecutionError, 6U)                                                   \
   TCLASS(EarlyAlgorithm, 7U)                                                   \
-  TCLASS(EarlyUser, 8U)
+  TCLASS(EarlyUser, 8U)                                                        \
+  TCLASS(Reach, 9U)
 
 ///@brief Termination classes categorize termination types
 enum class StateTerminationClass : std::uint8_t {
@@ -71,8 +75,8 @@ enum class StateTerminationClass : std::uint8_t {
   TTMARK(EARLYALGORITHM, 71U)                                                  \
   TTYPE(SilentExit, 80U, "")                                                   \
   TTMARK(EARLYUSER, 80U)                                                       \
-  TTMARK(END, 80U)
-
+  TTMARK(END, 80U)                                                             \
+  TTYPE(Reach, 90U, "reached")
 
 ///@brief Reason an ExecutionState got terminated.
 enum class StateTerminationType : std::uint8_t {
