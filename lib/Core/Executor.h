@@ -5,6 +5,9 @@
 // This file is distributed under the University of Illinois Open Source
 // License. See LICENSE.TXT for details.
 //
+// This file has been edited for KLEE-Reach
+// Copyright (C) 2024 Université de Bordeaux, Bordeaux INP, CNRS
+//
 //===----------------------------------------------------------------------===//
 //
 // Class to perform actual execution, hides implementation details from external
@@ -439,6 +442,15 @@ private:
   /// (e.g. due to klee_silent_exit issued by user)
   void terminateStateEarlyUser(ExecutionState &state,
                                const llvm::Twine &message);
+
+  /// Call error handler and terminate state in case of reaching a specified
+  /// state.
+  void terminateStateOnReach(ExecutionState &state,
+                           const llvm::Twine &message,
+                           StateTerminationType reason,
+                           const llvm::Twine &longMessage = "",
+                           const char *suffix = nullptr);
+
 
   /// Call error handler and terminate state in case of errors.
   /// The underlying function of all error-handling termination functions

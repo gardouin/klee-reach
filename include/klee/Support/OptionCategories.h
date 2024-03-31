@@ -5,6 +5,9 @@
 // This file is distributed under the University of Illinois Open Source
 // License. See LICENSE.TXT for details.
 //
+// This file has been edited for KLEE-Reach
+// Copyright (C) 2024 Université de Bordeaux, Bordeaux INP, CNRS
+//
 //===----------------------------------------------------------------------===//
 
 /*
@@ -35,6 +38,7 @@ namespace klee {
   extern llvm::cl::OptionCategory StatsCat;
   extern llvm::cl::OptionCategory TerminationCat;
   extern llvm::cl::OptionCategory TestGenCat;
+  extern llvm::cl::OptionCategory AStarCat;
 }
 
 #endif /* KLEE_OPTIONCATEGORIES_H */

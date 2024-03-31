@@ -5,6 +5,9 @@
 // This file is distributed under the University of Illinois Open Source
 // License. See LICENSE.TXT for details.
 //
+// This file has been edited for KLEE-Reach
+// Copyright (C) 2024 Université de Bordeaux, Bordeaux INP, CNRS
+//
 //===----------------------------------------------------------------------===//
 
 #include "Executor.h"
@@ -336,7 +339,9 @@ cl::list<StateTerminationType> ExitOnErrorType(
         clEnumValN(StateTerminationType::NullableAttribute, "NullableAttribute",
                    "Violation of nullable attribute detected"),
         clEnumValN(StateTerminationType::User, "User",
-                   "Wrong klee_* function invocation")),
+                   "Wrong klee_* function invocation"),
+        clEnumValN(StateTerminationType::Reach, "Reach",
+                   "Target reached")),
     cl::ZeroOrMore,
     cl::cat(TerminationCat));
 
@@ -3890,6 +3895,54 @@ const InstructionInfo & Executor::getLastNonKleeInternalInstruction(const Execut
 bool shouldExitOn(StateTerminationType reason) {
   auto it = std::find(ExitOnErrorType.begin(), ExitOnErrorType.end(), reason);
   return it != ExitOnErrorType.end();
+}
+
+void Executor::terminateStateOnReach(ExecutionState &state,
+                                   const llvm::Twine &messaget,
+                                   StateTerminationType terminationType,
+                                   const llvm::Twine &info,
+                                   const char *suffix) {
+  std::string message = messaget.str();
+  static std::set< std::pair<Instruction*, std::string> > emittedErrors;
+  Instruction * lastInst;
+  const InstructionInfo &ii = getLastNonKleeInternalInstruction(state, &lastInst);
+
+  if (EmitAllErrors ||
+      emittedErrors.insert(std::make_pair(lastInst, message)).second) {
+    if (!ii.file.empty()) {
+      klee_message("HIT: %s (%s:%d)", message.c_str(), ii.file.c_str(), ii.line);
+    } else {
+      klee_message("HIT: %s (location information missing)", message.c_str());
+    }
+    if (!EmitAllErrors)
+      klee_message("NOTE: now ignoring this reach at this location");
+
+    std::string MsgString;
+    llvm::raw_string_ostream msg(MsgString);
+    msg << "Target reached\n";
+    if (!ii.file.empty()) {
+      msg << "File: " << ii.file << '\n'
+          << "Line: " << ii.line << '\n'
+          << "assembly.ll line: " << ii.assemblyLine << '\n'
+          << "State: " << state.getID() << '\n';
+    }
+    msg << "Stack: \n";
+    state.dumpStack(msg);
+
+    std::string info_str = info.str();
+    if (!info_str.empty())
+      msg << "Info: \n" << info_str;
+
+    const std::string ext = terminationTypeFileExtension(terminationType);
+    // use user provided suffix from klee_report_error()
+    const char * file_suffix = suffix ? suffix : ext.c_str();
+    interpreterHandler->processTestCase(state, msg.str().c_str(), file_suffix);
+  }
+
+  terminateState(state, terminationType);
+
+  if (shouldExitOn(terminationType))
+    haltExecution = true;
 }
 
 void Executor::terminateStateOnError(ExecutionState &state,

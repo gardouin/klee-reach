@@ -5,6 +5,9 @@
 // This file is distributed under the University of Illinois Open Source
 // License. See LICENSE.TXT for details.
 //
+// This file has been edited for KLEE-Reach
+// Copyright (C) 2024 Université de Bordeaux, Bordeaux INP, CNRS
+//
 //===----------------------------------------------------------------------===//
 
 #include "Searcher.h"
@@ -76,7 +79,7 @@ void DFSSearcher::printName(llvm::raw_ostream &os) {
 
 ///
 
-ExecutionState &BFSSearcher::selectState() {
+ExecutionState &BFSSearcher::selectState() { 
   return *states.front();
 }
 

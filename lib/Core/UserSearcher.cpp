@@ -5,6 +5,9 @@
 // This file is distributed under the University of Illinois Open Source
 // License. See LICENSE.TXT for details.
 //
+// This file has been edited for KLEE-Reach
+// Copyright (C) 2024 Université de Bordeaux, Bordeaux INP, CNRS
+//
 //===----------------------------------------------------------------------===//
 
 #include "UserSearcher.h"
@@ -12,6 +15,7 @@
 #include "Executor.h"
 #include "MergeHandler.h"
 #include "Searcher.h"
+#include "AStarSearcher.h"
 
 #include "klee/Support/ErrorHandling.h"
 
@@ -33,6 +37,8 @@ cl::list<Searcher::CoreSearchType> CoreSearch(
         clEnumValN(Searcher::BFS, "bfs",
                    "use Breadth First Search (BFS), where scheduling decisions "
                    "are taken at the level of (2-way) forks"),
+        clEnumValN(Searcher::A_STAR, "astar", "use A* Search"),
+        clEnumValN(Searcher::A_STAR2, "astar2", "use A*-2 Search"),
         clEnumValN(Searcher::RandomState, "random-state",
                    "randomly select a state to explore"),
         clEnumValN(Searcher::RandomPath, "random-path",
@@ -121,6 +127,8 @@ Searcher *getNewSearcher(Searcher::CoreSearchType type, RNG &rng,
     case Searcher::NURS_ICnt: searcher = new WeightedRandomSearcher(WeightedRandomSearcher::InstCount, rng); break;
     case Searcher::NURS_CPICnt: searcher = new WeightedRandomSearcher(WeightedRandomSearcher::CPInstCount, rng); break;
     case Searcher::NURS_QC: searcher = new WeightedRandomSearcher(WeightedRandomSearcher::QueryCost, rng); break;
+    case Searcher::A_STAR: searcher = new AStarSearcher(); break;
+    case Searcher::A_STAR2: searcher = new AStar2Searcher(); break;
   }
 
   return searcher;
