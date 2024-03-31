@@ -29,5 +29,6 @@ Please refer to `user_manual.pdf`.
 ## References
 
 The original project: http://klee-se.org/
+
 The paper that developed the new heuristics: 
 https://doi.org/10.1007/978-3-031-47115-5_4
