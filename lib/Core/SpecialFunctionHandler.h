@@ -113,7 +113,7 @@ namespace klee {
     HANDLER(handlePrintExpr);
     HANDLER(handlePrintRange);
     HANDLER(handleRange);
-    HANDLER(handleReach); // GA: adding handler for klee_reach
+    HANDLER(handleReach);
     HANDLER(handleRealloc);
     HANDLER(handleReportError);
     HANDLER(handleRevirtObjects);
